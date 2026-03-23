@@ -1,16 +1,16 @@
 {
   "name": "chromium-api",
   "version": "1.0.0",
-  "description": "A Railway-hosted API to fetch website HTML using Chromium",
+  "description": "Railway-hosted API to fetch website HTML using Chromium",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": ">=18"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "puppeteer": "^21.3.8"
+    "puppeteer": "^23.8.0"
   }
 }
