@@ -7,9 +7,11 @@ let browser
 
 async function start() {
     browser = await puppeteer.launch({
-        headless: false,
-        defaultViewport: null,
-        args: ["--start-maximized"]
+        headless: "new",
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ]
     })
 }
 
@@ -22,21 +24,11 @@ app.get("/website", async (req, res) => {
     const page = await browser.newPage()
     await page.goto(site.startsWith("http") ? site : "https://" + site)
 
-    const ws = browser.wsEndpoint()
+    const content = await page.content()
 
-    res.send(`
-        <html>
-        <body style="margin:0;background:black;color:white;font-family:sans-serif">
-            <h2>Chromium running locally</h2>
-            <p>You are controlling a real browser window on the server.</p>
-            <p>WebSocket endpoint:</p>
-            <code>${ws}</code>
-            <p>Open DevTools manually to interact.</p>
-        </body>
-        </html>
-    `)
+    res.send(content)
 })
 
 app.listen(3000, () => {
-    console.log("http://localhost:3000/website?site=example.com")
+    console.log("Running on port 3000")
 })
