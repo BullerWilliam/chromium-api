@@ -1,34 +1,36 @@
-const express = require("express")
-const puppeteer = require("puppeteer")
+const express = require("express");
+const puppeteer = require("puppeteer");
 
-const app = express()
-
-let browser
+const app = express();
+let browser;
 
 async function start() {
-    browser = await puppeteer.launch({
-        headless: "new",
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox"
-        ]
-    })
+  browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+    args: ["--start-maximized", "--no-sandbox", "--disable-setuid-sandbox"]
+  });
 }
 
-start()
+start();
 
 app.get("/website", async (req, res) => {
-    const site = req.query.site
-    if (!site) return res.send("Missing ?site=")
+  const site = req.query.site;
+  if (!site) return res.send("Missing ?site=");
 
-    const page = await browser.newPage()
-    await page.goto(site.startsWith("http") ? site : "https://" + site)
+  // Open a new browser page
+  const page = await browser.newPage();
+  await page.goto(site.startsWith("http") ? site : "https://" + site);
 
-    const content = await page.content()
+  res.send(`
+    <html>
+      <body style="font-family:sans-serif">
+        <h2>Chromium is running on your PC</h2>
+        <p>Open the browser window Puppeteer launched to interact with ${site}.</p>
+        <p>This endpoint cannot directly stream the interactive browser.</p>
+      </body>
+    </html>
+  `);
+});
 
-    res.send(content)
-})
-
-app.listen(3000, () => {
-    console.log("Running on port 3000")
-})
+app.listen(3000, () => console.log("Visit http://localhost:3000/website?site=example.com"));
