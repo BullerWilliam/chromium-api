@@ -1,21 +1,14 @@
 {
   "name": "chromium-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Chromium browser API",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"No tests\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BullerWilliam/chromium-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/BullerWilliam/chromium-api/issues"
-  },
-  "homepage": "https://github.com/BullerWilliam/chromium-api#readme"
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^24.0.0"
+  }
 }
