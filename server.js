@@ -3,6 +3,7 @@ const puppeteer = require("puppeteer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.get("/website", async (req, res) => {
     const site = req.query.site;
@@ -12,7 +13,7 @@ app.get("/website", async (req, res) => {
         const browser = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             headless: true,
-        });
+        });     
         const page = await browser.newPage();
 
         let url = site.startsWith("http") ? site : `https://${site}`;
